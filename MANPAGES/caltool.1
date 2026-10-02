@@ -1,0 +1,119 @@
+.Dd August 8, 2026
+.Dt CALTOOL 1
+.Os 
+.Sh NAME
+.Nm caltool
+.Nd create and manage Swift executable products
+.Sh SYNOPSIS
+.Nm caltool
+[-htv]
+.Eo \&[  Ar subcommand Ec ]
+.Nm caltool
+.Fl -generate-completion-script Ar shell Ns ...
+.Nm caltool
+.Fl -generate-manpage
+.Sh DESCRIPTION
+The 
+.Nm caltool No  utility initializes packages for building executable products. Generated
+products can include support for generating shell completion scripts and
+manual pages. The utility can also install and uninstall products locally.
+.Pp
+Generated packages depend on modules from Command Argument Library. 
+.Lk https://github.com/ouser4629/cmd-arg-lib.git Command Argument Library .
+.Pp
+The following options are available:
+.Bl -tag -width indent
+.It Fl h, Fl -help
+Show this help screen.
+.It Fl t, Fl -tree
+Show the command hierarchy.
+.It Fl v, Fl -version
+Show the version.
+.El
+.Sh META-OPTIONS
+The following meta-options are used when configuring the 
+.Nm caltool No  installation.
+.Bl -tag -width indent
+.It Fl -generate-completion-script Ar shell
+Print a completion script for 
+.Nm caltool No  for the indicated shell ("zsh" or "fish").
+.It Fl -generate-manpage
+Generate the mdoc source for this manual page and write it to stadard output.
+.El
+.Sh CONFIGURATION OPTIONS
+Global options are specified on the top-level command and inherited by its subcommands.
+.Pp
+The following global options are available:
+.Bl -tag -width indent
+.It Fl F, Fl -fish-dir Ar fish_directory
+The directory for fish completion files (default: "~/.config/fish/completions").
+.It Fl M, Fl -manpage-dir Ar manpage_directory
+The directory in which to install manpages (default: "~/.local/share/man/man1").
+.It Fl P, Fl -product-dir Ar product_directory
+The directory in which to install the products (default: "~/.local/bin").
+.It Fl R, Fl -release-dir Ar release_directory
+The directory containing the package's products (default: ".build/release").
+.It Fl Z, Fl -zsh-dir Ar zsh_directory
+The directory for zsh completion files (default: "~/.config/zsh/completions").
+.El
+.Sh SUBCOMMANDS
+The available subcommands are:
+.Bl -tag -width indent
+.It Sy init
+Initialize a new package.
+.It Sy install
+Install executable products.
+.It Sy uninstall
+Uninstall executable products.
+.El
+.Sh EXAMPLES
+Initialize, build, install and run a sample product with unit testing
+and completion scripts.
+.Pp
+.Dl > mkdir Demo && cd Demo
+.Dl Demo> caltool init --with-completion --template testing
+.Dl Demo> swift test
+.Dl Demo> swift build -c release 
+.Dl Demo> caltool install --with-shells fish zsh
+.D1 > cd
+.D1 > demo -h
+.D1 > demo -uc2 wolf
+.Pp
+Initialize, build, install and run a sample product with a custom 
+name and a manual page generator, in a new directory
+.Pp
+.Dl > mkdir Demo && cd Demo
+.Dl Demo> caltool init --template manpage -d ManpageExample --name man-ex
+.Dl Demo> cd ManpageExample
+.Dl ManpageExample> swift build -c release 
+.Dl ManpageExample> caltool install
+.Dl ManpageExample> man-ex -h
+.Dl ManpageExample> man man-ex
+.Dl ManpageExample> man-ex -ic2 -g "Good to see you, " Sammy
+.Sh ENVIRONMENT
+The 
+.Ar product_directory No  and 
+.Ar manpage_directory No  should appear in the shell's PATH and MANPATH, respectively. 
+.Pp
+The 
+.Ar zsh_directory No  and 
+.Ar fish_directory No  should be on zsh's FPATH and fish's 
+fish_complete_path, respectively.
+.Pp
+These directories should be writable without superuser privileges. 
+.Pp
+.Sh EXIT STATUS
+The
+.Nm
+utility returns zero on success and non-zero on failure.
+.Pp
+.Sh SEE ALSO
+.Xr caltool-init 1 ,
+.Xr caltool-install 1 ,
+.Xr caltool-uninstall 1
+.Pp
+.Sh AUTHOR
+The 
+.Nm
+utility was written by
+.%A Peter Buenafuente Summerland .

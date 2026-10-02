@@ -1,0 +1,63 @@
+.Dd August 8, 2026
+.Dt CALTOOL-INSTALL 1
+.Os 
+.Sh NAME
+.Nm caltool-install
+.Nd install executable products
+.Sh SYNOPSIS
+.Nm caltool install
+[-h]
+.Eo \&[  Fl m Ar manpage Ns ... Ec ]
+.Eo \&[  Fl c Ar shell Ns ... Ec ]
+.Eo \&[  Ar product Ns ... Ec ]
+.Nm caltool install
+.Fl -generate-manpage
+.Sh DESCRIPTION
+By default, 
+.Nm caltool-install No  installs all of the executable products in the release directory. 
+If one or more product names are specified, only those products will be installed.
+.Pp
+The following options are available:
+.Bl -tag -width indent
+.It Fl h, Fl -help
+Show a help screen.
+.It Fl m, Fl -with-manpages Ar manpage Ns ...
+Generate and install manual pages for the indicated products.
+.It Fl c, Fl -with-completion-scripts Ar shell Ns ...
+For each product, generate and install completion scripts for the indicated shells (available shells: "zsh" and "fish").
+.It Fl -generate-manpage
+Generate the mdoc source for this manual page and write it to standard output.
+.El
+.Pp
+The 
+.Nm caltool-install No  utility obtains the completion script for a given shell by calling the product with 
+.Fl -generate-completion-script Ar shell_name .
+The fish completion script requires that
+.Dq __fish_completion_tool
+be installed in a directory in the shell's path.
+.Pp
+By default, one manpage is installed for each product that can generate a manpage. I.e.,
+a product that has a 
+.Fl -generate-manpage No  option. Alternatively, only the manpages
+specified after 
+.Fl m No  or 
+.Fl -with-manpages No  will be installed. Each name must be a 
+product name or, for subcommands, subcommand path, separated by "/". For example,
+"
+.Fl m No  caltool/install" generates a manual page for this subcommand named "caltool-install".
+.Pp
+.Sh EXIT STATUS
+The
+.Nm
+utility returns zero on success and non-zero on failure.
+.Pp
+.Sh SEE ALSO
+.Xr caltool 1 ,
+.Xr caltool-init 1 ,
+.Xr caltool-uninstall 1 
+.Pp
+.Sh AUTHOR
+The 
+.Nm
+utility was written by
+.%A Peter Buenafuente Summerland .
