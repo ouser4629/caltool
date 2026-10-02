@@ -27,7 +27,7 @@ let package = Package(
         .package(url: "https://github.com/ouser4629/CmdArgLibCore.git", branch: "main"),
         .package(url: "https://github.com/ouser4629/CmdArgLibHelpScreen.git", branch: "main"),
         .package(url: "https://github.com/ouser4629/CmdArgLibManpage.git", branch: "main"),
-        .package(url: "https://github.com/ouser4629/NewCmdArgLibCommandNodeDef.git", branch: "main"),
+        .package(url: "https://github.com/ouser4629/CmdArgLibCommandNodeDef.git", branch: "main"),
 //        .package(path: "/Users/po/ZLocal/ZDev/Swift/PS2Lib/User4629/CmdArgLibCommandNodeDef"),
         .package(url: "https://github.com/ouser4629/CmdArgLibCompletions.git", branch: "main"),
     ],
