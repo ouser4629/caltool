@@ -1,0 +1,49 @@
+// Copyright (c) 2025-2026 Peter Summerland LLC
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+let statefulTreeSon = """
+    // Copyright (c) <YEAR> <AUTHOR>
+
+    import CmdArgLibCore
+    import CmdArgLibProtocols
+    import CmdArgLibHelpScreen
+
+    struct Son: CommandNodeDef {
+    
+        var h__help: MetaFlag = MetaFlag(helpElements: helpElements)
+    
+        var configuration: CommandNodeConfig<Format>? = CommandNodeConfig(
+            commandSynopsis: "Simulate son speaking."
+        )
+
+        func run(state: [Format]) throws -> [Format] {
+            var text = "I want to play chess with my sister."
+            if let format = state.first {
+                if format.lower { text = text.lowercased() }
+                if format.upper { text = text.uppercased() }
+            }
+            print(text)
+            return []
+        }
+
+        private static let helpElements: [ShowElement] = [
+            .text("DESCRIPTION\\n", "Simulate son speaking."),
+            .synopsis("\\nUSAGE\\n"),
+            .text("\\nOPTION"),
+            .parameter("h__help", "Show help information"),
+        ]
+    }
+    """
+
+let minimalstatefulTreeSon = statefulTreeSon

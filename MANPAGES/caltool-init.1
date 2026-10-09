@@ -1,0 +1,78 @@
+.Dd September 30, 2026
+.Dt CALTOOL-INIT 1
+.Os 
+.Sh NAME
+.Nm caltool-init
+.Nd initialize a Swift package containing an executable product
+.Sh SYNOPSIS
+.Nm caltool init
+[-hcm]
+.Eo \&[  Fl d Ar directory Ec ]
+.Eo \&[  Fl n Ar product Ec ]
+.Fl t Ar template
+.Nm caltool init
+.Fl -generate-manpage
+.Sh DESCRIPTION
+The 
+.Nm caltool-init No  utility initializes a package containing an executable product based on a given 
+.Ar template Ns .
+Some templates also have variants with fewer example parameters.
+.Pp
+The following options are available:
+.Bl -tag -width indent
+.It Fl c, Fl -with-completion
+Add zsh and fish completion generation support to the executable product.
+Does not apply to the "opaque" template.
+.It Fl d, Fl -directory Ar directory
+The directory containing the new package (default: the current directory). If the 
+.Ar directory No  is specified and does not exist, it will be created.
+.It Fl -generate-manpage
+Generate the mdoc source for this manual page and write it to standard output.
+.It Fl h, Fl -help
+Show a help screen.
+.It Fl m, Fl -with-more
+Use a template variant with more example parameters. Applies only to
+"basic" and "testing".
+.It Fl n, Fl -name Ar product
+The name of the product. If not specified, the name defaults to the kebab-case
+form of the package name..
+.It Fl t, Fl -template Ar template
+The template to use.
+.El
+.Pp
+The package name defaults to the last component of the specified directory path.
+.Sh TEMPLATES
+Templates provide starting points for different executable product configurations.
+All generated products can generate help screens 
+except those based on the "opaque" template. Only products based on the "manpage" template 
+can generate manual pages.
+.Bl -tag -width indent
+.It Sy opaque
+A product without help screen generation.
+.It Sy basic
+A product with a basic help screen.
+.It Sy testing
+A product with unit testing.
+.It Sy manpage
+A product with manual page generation.
+.It Sy simple-tree
+A product with commands and subcommands.
+.It Sy stateful-tree
+A product with stateful commands and subcommands.
+.El
+.Pp
+.Sh EXIT STATUS
+The
+.Nm
+utility returns zero on success and non-zero on failure.
+.Pp
+.Sh SEE ALSO
+.Xr caltool 1 ,
+.Xr caltool-install 1 ,
+.Xr caltool-uninstall 1
+.Pp
+.Sh AUTHOR
+The 
+.Nm
+utility was written by
+.%A Peter Buenafuente Summerland .

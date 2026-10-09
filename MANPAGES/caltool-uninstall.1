@@ -1,0 +1,55 @@
+.Dd August 8, 2026
+.Dt CALTOOL-UNINSTALL 1
+.Os 
+.Sh NAME
+.Nm caltool-uninstall
+.Nd uninstall executable products
+.Sh SYNOPSIS
+.Nm caltool uninstall
+[-ih]
+.Eo \&[  Fl I Ar limit Ec ]
+.Eo \&[  Ar product Ns ... Ec ]
+.Nm caltool uninstall
+.Fl -generate-manpage
+.Sh DESCRIPTION
+The 
+.No caltool-uninstall No  utility uninstalls the indicated executable products.
+If no product names are specified, it uses the names of executalbe products in the release
+directory.
+.Pp
+When a product, say "name" is uninstalled, its associated shell completions are uninstalled, as
+well as any manpage whose name matches the glob pattern "name*". 
+.Pp
+The following options are available:
+.Bl -tag -width indent
+.It Fl i, Fl -confirm-each
+Request confirmation before attempting to remove each file.
+.It Fl I, Fl -confirm-once Ar limit
+Request confirmation just once if more than 
+.Ar limit No  products are being removed.
+.It Fl -generate-manpage
+Generate the mdoc source for this manual page and write it to standard output.
+.It Fl h, Fl -help
+Show a help screen.
+.El
+.Pp
+The 
+.Fl i No  and 
+.Fl I No  options override each other; the last one specified
+determines how product removal is confirmed.
+.Pp
+.Sh EXIT STATUS
+The
+.Nm
+utility returns zero on success and non-zero on failure.
+.Pp
+.Sh SEE ALSO
+.Xr caltool 1 ,
+.Xr caltool-init 1 ,
+.Xr caltool-install 1
+.Pp
+.Sh AUTHOR
+The 
+.Nm
+utility was written by
+.%A Peter Buenafuente Summerland .
