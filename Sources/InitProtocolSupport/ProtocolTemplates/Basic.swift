@@ -21,7 +21,6 @@ import CmdArgLibHelpScreen COMPLETION_IMPORT_LINE
 
 @main
 struct TARGET_NAME: MainFunctionDef {
-    typealias Count = Int
     enum Animal: String, CmdArgEnum { case bear, fox, wolf }
 
     var version: MetaFlag = MetaFlag(string: "version 0.1.0") COMPLETION_PARAMETER_LINE
@@ -29,14 +28,13 @@ struct TARGET_NAME: MainFunctionDef {
     var index: Flag = false
     var l: Flag = false
     var u: Flag = false
-    var maybeCounts: Count?? = Optional(.none)
+    var count: Int?? = nil
     var animals: Variadic<Animal>? = nil
 
     var attributes: MainFunctionAttributes? = MainFunctionAttributes(
         shadowGroups: ["l u"],
         embellishments: [
             .embellish("index", label: "i__index"),
-            .embellish("count", label: "c__count", typeName: "Count??"),
             .embellish("animals", label: "_", typeName: "Variadic<Animal>?"), COMPLETION_EMBELLISHMET_LINE
             .embellish("help", label: "h__help"),
         ],
@@ -44,13 +42,13 @@ struct TARGET_NAME: MainFunctionDef {
 
     func run() throws
     {
-        let count = if let maybeCounts, let maybeCounts { maybeCounts } else { Int.random(in: 1...3) }
-        if count < 1 || count > 3 {
-            throw Exception.error("$T{count} must be between 1 and 3.")
+        let repeats = if let count { count! } else { Int.random(in: 1...3) }
+        if repeats < 1 || repeats > 3 {
+            throw Exception.error("$T{repeats} must be between 1 and 3.")
         }
         let animalsString = animals!.map { $0.rawValue }.joinedWith("and")
         var lines: [String] = []
-        for i in 1...count {
+        for i in 1...repeats {
             let indexString = index ? "\\(i): " : ""
             lines.append(indexString + animalsString)
         }
@@ -65,11 +63,11 @@ struct TARGET_NAME: MainFunctionDef {
         .text("\\nOPERANDS"),
         .parameter("animals", "The names of the animals to print", .list(Animal.cases)),
         .text("\\nOPTIONS"),
+        .parameter("help", "Show this help message"),
         .parameter("index", "Show this help message"),
         .parameter("l", "Lowercase the message"),
         .parameter("u", "Uppercase the message"),
-        .parameter("count", "Repeat the greeting $E{maybeCounts} times (the default is a random integer between 1 and 3)"),
-        .parameter("help", "Show this help message"),
+        .parameter("count", "Repeat the greeting $E{count} times (the default is a random integer between 1 and 3)"),
         .parameter("version", "Show version information"), COMPLETION_SHOW_ELEMENT_LINE
         .text("\\nNOTES\\n", notes),
     ]
