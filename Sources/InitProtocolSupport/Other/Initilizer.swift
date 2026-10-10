@@ -52,7 +52,7 @@ let completionParameterLineTemplate = """
 
 let completionEmbellismentLineTemplate = """
 
-            .embellish("generateCompletionScript", typeName: "MetaOption<Shell>"),
+           .embellish("generateCompletionScript", typeName: "MetaOption<Shell>"),
 """
 
 let completionGeneratorLinesTemplate = """

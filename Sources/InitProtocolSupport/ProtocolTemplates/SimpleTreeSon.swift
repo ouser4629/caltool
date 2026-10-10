@@ -26,9 +26,6 @@ let simpleTreeSon = """
         var h__help: MetaFlag = MetaFlag(helpElements: helpElements)
     
         var configuration: CommandNodeConfig<Void>? = CommandNodeConfig(
-            embellishments: [
-                // .embellish("maybeCount", label: "c__count", typeName: "Maybe<Int>")
-            ],
             commandSynopsis: "Simulate son speaking."
         )
 
