@@ -53,10 +53,6 @@ struct TARGET_NAME: CommandNodeDef {
         .commandContext(sonCommandNode.context),
         .commandContext(daughterCommandNode.context),
     ]
-
-    private static func main() async {
-        await runAsMain(Self().commandNode)
-    }
 }
 
 struct Format {

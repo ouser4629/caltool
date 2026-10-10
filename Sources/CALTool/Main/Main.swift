@@ -21,8 +21,6 @@ import CmdArgLibProtocols
 @main
 struct Caltool: CommandNodeDef {
 
-    static func main() async { await runAsMain(Self().commandNode) }
-
     private static let mainName = "caltool"
 
     var configuration: CommandNodeConfig<GlobalOptions>? = CommandNodeConfig(
