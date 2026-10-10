@@ -21,23 +21,23 @@ let simpleTreeSon = """
 
     struct Son: CommandNodeDef {
     
-        var maybeCount: Maybe<Int> = nil
+        var count: Int?? = nil
         var phrase = "I want to play chess with my sister."
         var h__help: MetaFlag = MetaFlag(helpElements: helpElements)
     
         var configuration: CommandNodeConfig<Void>? = CommandNodeConfig(
             embellishments: [
-                .embellish("maybeCount", label: "c__count", typeName: "Maybe<Int>")
+                // .embellish("maybeCount", label: "c__count", typeName: "Maybe<Int>")
             ],
             commandSynopsis: "Simulate son speaking."
         )
 
         func run(state: [Void]) throws -> [Void] {
-            let count = if let maybeCount { maybeCount } else { Int.random(in: 1...3) }
-            if count < 1 || count > 3 {
-                throw Exception.error("$T{maybeCount} must be between 1 and 3.")
+            let repeats = if let count { count! } else { Int.random(in: 1...3) }
+            if repeats < 1 || repeats > 3 {
+                throw Exception.error("The value for $L{count} must be between 1 and 3.")
             }
-            for _ in 1...count {
+            for _ in 1...repeats {
                 print(phrase)
             }
             return []
@@ -47,7 +47,7 @@ let simpleTreeSon = """
             .text("DESCRIPTION\\n", "Simulate son speaking."),
             .synopsis("\\nUSAGE\\n"),
             .text("\\nOPTIONS"),
-            .parameter("maybeCount", "The number of times to repeat (default is a random number)"),
+            .parameter("count", "The number of times to repeat (default is a random number)"),
             .parameter("phrase", "The phrase to print"),
             .parameter("h__help", "Show help information"),
         ]
