@@ -44,7 +44,7 @@ struct TARGET_NAME: MainFunctionDef {
     {
         let repeats = if let count { count! } else { Int.random(in: 1...3) }
         if repeats < 1 || repeats > 3 {
-            throw Exception.error("$T{repeats} must be between 1 and 3.")
+            throw Exception.error("$T{count} must be between 1 and 3.")
         }
         let animalsString = animals!.map { $0.rawValue }.joinedWith("and")
         var lines: [String] = []
