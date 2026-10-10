@@ -29,8 +29,8 @@ struct InitDef: CommandNodeDef {
     var useMacros: Flag = false
     var completion: Flag = false
     var more: Flag = false
-    var directory: Maybe<Directory> = nil
-    var productName: Maybe<Product> = nil
+    var directory: Directory?? = nil
+    var productName: Product?? = nil
     var template: Template? = nil
 
     var configuration: CommandNodeConfig<GlobalOptions>? = CommandNodeConfig(
@@ -40,8 +40,8 @@ struct InitDef: CommandNodeDef {
             .embellish("completion", label: "c__withCompletion"),
             .embellish("useMacros", label: "m__useMacros"),
             .embellish("more", label: "v__verbose"),
-            .embellish("directory", label: "d__directory", typeName: "Maybe<Directory>"),
-            .embellish("productName", label: "p__product", typeName: "Maybe<Product>"),
+            .embellish("directory", label: "d__directory", typeName: "Directory??"),
+            .embellish("productName", label: "p__product", typeName: "Product??"),
             .embellish("template", label: "t__template", typeName: "Template?"),
         ],
         commandSynopsis: "Initialize a new package.",
