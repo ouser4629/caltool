@@ -23,17 +23,6 @@ struct Caltool: CommandNodeDef {
 
     private static let mainName = "caltool"
 
-    var configuration: CommandNodeConfig<GlobalOptions>? = CommandNodeConfig(
-        embellishments: [
-            .embellish("help", label: "h__help"),
-            .embellish("generateCompletionScript", typeName: "MetaOption<Shell>"),
-            .embellish("tree", label: "t__tree"),
-            .embellish("version", label: "v__version"),
-        ],
-        commandSynopsis: "Swift package development",
-        children: subcommands
-    )
-
     var releaseDir: ReleaseDirectory = ".build/release"
     var productDir: ProductDirectory = "~/.local/bin"
     var manpageDir: ManpageDirectory = "~/.local/share/man/man1"
@@ -41,9 +30,15 @@ struct Caltool: CommandNodeDef {
     var zshDir: ZshDirectory = "~/.config/zsh/completions"
     var generateCompletionScript: MetaOption<Shell> = completionScript
     var generateManpage: MetaFlag = MetaFlag(manpageElements: manpageElements)
-    var tree: MetaFlag = MetaFlag(treeFor: "caltool", synopsis: "")
-    var version: MetaFlag = MetaFlag(string: "caltool beta version 0.2.0")
-    var help: MetaFlag = MetaFlag(helpElements: helpElements)
+    var t__tree: MetaFlag = MetaFlag(treeFor: "caltool", synopsis: "")
+    var v__version: MetaFlag = MetaFlag(string: "caltool beta version 0.2.0")
+    var h__help: MetaFlag = MetaFlag(helpElements: helpElements)
+
+    var attributes: CommandNodeAttributes<GlobalOptions>? = CommandNodeAttributes(
+        typeNames: ["generateCompletionScript":"MetaOption<Shell>"],
+        commandSynopsis: "Swift package development",
+        children: subcommands
+    )
 
     @MainActor
     func run(state: [GlobalOptions]) async -> [GlobalOptions] {
@@ -74,9 +69,9 @@ struct Caltool: CommandNodeDef {
         .text("DESCRIPTION\n", "Create and manage Swift executable products."),
         .synopsis("\nUSAGE\n", line: ["help",  "tree", "version", "$_:Variadic<ConfigurationOption>=", "$_:Subcommand"]),
         .text("\nOPTIONS"),
-        .parameter("help", "Show this help screen"),
-        .parameter("tree", "Show the command hierarchy"),
-        .parameter("version", "Show the version"),
+        .parameter("h__help", "Show this help screen"),
+        .parameter("t__tree", "Show the command hierarchy"),
+        .parameter("v__version", "Show the version"),
         .pseudoParameter("<configuration-option>...", "Global configuration options passed to subcommands (described in the manual page)"),
         .text("\nSUBCOMMANDS"),
         .commandContext(initNodeContext),
@@ -87,16 +82,16 @@ struct Caltool: CommandNodeDef {
     static let manpageElements: [ShowElement] = [
         .prologue(description: "create and manage Swift executable products"),
         .synopsis(lines: [
-            ["help",  "tree", "version","$_:Subcommand"],
+            ["h__help",  "tree", "version","$_:Subcommand"],
             ["$generateCompletionScript:Variadic<Shell>="],
             ["$generateManpage:Flag="],
         ]),
         .paragraph("DESCRIPTION\n", manpageDescription),
         .paragraph("", cmdArgLibNote),
         .paragraph("", "The following options are available:"),
-        .parameter("help", "Show this help screen"),
-        .parameter("tree", "Show the command hierarchy"),
-        .parameter("version", "Show the version"),
+        .parameter("h__help", "Show this help screen"),
+        .parameter("t__tree", "Show the command hierarchy"),
+        .parameter("v__version", "Show the version"),
         .paragraph("META-OPTIONS", "The following meta-options are used when configuring the $F{} installation."),
         .parameter("generateCompletionScript","Print a completion script for $F{} for the indicated shell (\(ShellType.orCases()))"),
         .parameter("generateManpage", "Generate the mdoc source for this manual page and write it to stadard output"),

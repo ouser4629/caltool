@@ -24,70 +24,60 @@ typealias Directory = String
 
 struct InitDef: CommandNodeDef {
 
-    var help: MetaFlag = MetaFlag(helpElements: helpElements)
+    var h__help: MetaFlag = MetaFlag(helpElements: helpElements)
     var generateManpage: MetaFlag = MetaFlag(manpageElements: manpageElements)
-    var useMacros: Flag = false
-    var completion: Flag = false
-    var more: Flag = false
-    var directory: Directory?? = nil
-    var productName: Product?? = nil
-    var template: Template? = nil
+    var m__useMacros: Flag = false
+    var c__withCompletion: Flag = false
+    var v__verbose: Flag = false
+    var d__directory: Directory?? = nil
+    var p__productName: Product?? = nil
+    var t__template: Template? = nil
 
-    var configuration: CommandNodeConfig<GlobalOptions>? = CommandNodeConfig(
-        commandName: mainName,
-        embellishments: [
-            .embellish("help", label: "h__help"),
-            .embellish("completion", label: "c__withCompletion"),
-            .embellish("useMacros", label: "m__useMacros"),
-            .embellish("more", label: "v__verbose"),
-            .embellish("directory", label: "d__directory", typeName: "Directory??"),
-            .embellish("productName", label: "p__product", typeName: "Product??"),
-            .embellish("template", label: "t__template", typeName: "Template?"),
-        ],
+    var attributes: CommandNodeAttributes<GlobalOptions>? = CommandNodeAttributes(
+        typeNames: [ "d__directory": "Directory??", "p__productName": "Product??",],
+        commandName: "init",
         commandSynopsis: "Initialize a new package.",
     )
 
     @MainActor
     func run(state: [GlobalOptions]) async throws -> [GlobalOptions] {
-        if template == .opaque && completion {
-            throw Exception.error("$J{completion} is not supported for opaque templates")
+        if t__template == .opaque && c__withCompletion {
+            throw Exception.error("$J{c__withCompletion} is not supported for opaque templates")
         }
-        if more {
-            switch template {
+        if v__verbose {
+            switch t__template {
             case .basic, .testing:
                 break
             default:
-                throw Exception.error("$J{more} is not supported for the \(template!) template")
+                throw Exception.error("$J{v__verbose} is not supported for the \(t__template!) template")
             }
         }
-        let product: Product? = if let productName { productName } else { nil }
-        let dir: Directory? = if let directory { directory } else { nil }
-        if useMacros {
+        let product: Product? = if let p__productName { p__productName } else { nil }
+        let dir: Directory? = if let d__directory { d__directory } else { nil }
+        if m__useMacros {
             let initializer = try InitMacroSupport.Initializer(
-                template: template!, product: product, populate: more, completion: completion, directory: dir)
+                template: t__template!, product: product, populate: v__verbose, completion: c__withCompletion, directory: dir)
             try initializer.initialize()
         }
         else {
             let initializer = try InitProtocolSupport.Initializer(
-                template: template!, product: product, populate: more, completion: completion, directory: dir)
+                template: t__template!, product: product, populate: v__verbose, completion: c__withCompletion, directory: dir)
             try initializer.initialize()
         }
         return []
     }
 
-    private static let mainName = "init"
-
     private static let helpElements: [ShowElement] = [
         .text("DESCRIPTION\n", "Initialize a Swift package containing an executable product."),
         .synopsis("\nUSAGE\n", line: ["$*", "!generateManpage"]),
         .text("\nOPTIONS"),
-        .parameter("help", "Show this help screen"),
-        .parameter("useMacros", protocolNote),
-        .parameter("completion", completionNote),
-        .parameter("more", moreNote),
-        .parameter("directory", directoryNote, .path),
-        .parameter("template", "The template to use", .list(Template.cases)),
-        .parameter("productName", "The name of the product (default: the package name in kebab-case)"),
+        .parameter("h__help", "Show this help screen"),
+        .parameter("m__useMacros", protocolNote),
+        .parameter("c__withCompletion", completionNote),
+        .parameter("v__verbose", moreNote),
+        .parameter("d__directory", directoryNote, .path),
+        .parameter("t__template", "The template to use", .list(Template.cases)),
+        .parameter("p__productName", "The name of the product (default: the package name in kebab-case)"),
         .text("\nTEMPLATES"),
         .pseudoParameter("opaque", "A product without a help screen"),
         .pseudoParameter("basic", "A product with a help screen"),
@@ -120,7 +110,7 @@ struct InitDef: CommandNodeDef {
 
     private static let directoryNote = """
         The directory containing the new package (default: the current directory). If the 
-        $E{directory} is specified and does not exist, it will be created
+        $E{d__directory} is specified and does not exist, it will be created
         """
 
     private static let packageNameNote = """
@@ -139,14 +129,14 @@ extension InitDef {
         ]),
         .paragraph("DESCRIPTION", manpageDescriptionNote1),
         .paragraph("","The following options are available:"),
-        .parameter("completion", completionNote),
-        .parameter("directory", directoryNote, .path),
+        .parameter("c__completion", completionNote),
+        .parameter("d__directory", directoryNote, .path),
         .parameter("generateManpage", "Generate the mdoc source for this manual page and write it to standard output"),
-        .parameter("help", "Show a help screen"),
-        .parameter("useMacros", protocolNote),
+        .parameter("h__help", "Show a help screen"),
+        .parameter("m__useMacros", protocolNote),
         .parameter("more", moreNote),
         .parameter("productName", productNameNote),
-        .parameter("template", "The template to use"),
+        .parameter("t__template", "The template to use"),
         .paragraph("", packageNameNote),
         .paragraph("TEMPLATES",templateNote),
         .pseudoParameter("opaque", "A product without help screen generation"),

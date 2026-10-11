@@ -30,11 +30,11 @@ struct InstallDef: CommandNodeDef {
 
     typealias Shell = ShellType
 
-    var manpages: Variadic<Manpage> = []
-    var shells: Variadic<Shell> = []
+    var m__manpages: Variadic<Manpage> = []
+    var c__completionScripts: Variadic<Shell> = []
     var generateManpage: MetaFlag = MetaFlag(manpageElements: manpageElements)
-    var productNames: Variadic<Product> = []
-    var help: MetaFlag = MetaFlag(helpElements: helpElements)
+    var _productNames: Variadic<Product> = []
+    var h__help: MetaFlag = MetaFlag(helpElements: helpElements)
 
     @MainActor
     func run(state: [GlobalOptions]) async throws -> [GlobalOptions] {
@@ -43,22 +43,19 @@ struct InstallDef: CommandNodeDef {
         }
         let installer = Installer(
             globaleOptions: globalOptions,
-            shellIdentifiers: shells,
-            manpages: manpages)
-        try await installer.install(productNames, with: manpages)
+            shellIdentifiers: c__completionScripts,
+            manpages: m__manpages)
+        try await installer.install(_productNames, with: m__manpages)
         return []
     }
 
-    private static let mainName = "install"
-
-    var configuration: CommandNodeConfig<GlobalOptions>? = CommandNodeConfig(
-        commandName: mainName,
-        embellishments: [
-            .embellish("manpages", label: "m__withManpages", typeName: "Variadic<Manpage>"),
-            .embellish("shells", label: "c__withCompletionScripts", typeName: "Variadic<Shell>"),
-            .embellish("productNames", label: "_", typeName: "Variadic<Product>"),
-            .embellish("help", label: "h__help"),
+    var attributes: CommandNodeAttributes<GlobalOptions>? = CommandNodeAttributes(
+        typeNames: [
+            "m__manpages":"Variadic<Manpage>",
+            "c__completionScripts":"Variadic<Shell>",
+            "_productNames":"Variadic<Product>",
         ],
+        commandName: "install",
         commandSynopsis: "Install executable products.",
     )
 
@@ -66,10 +63,10 @@ struct InstallDef: CommandNodeDef {
         .text("DESCRIPTION\n", helpOverview),
         .synopsis("\nUSAGE\n", line: ["!generateManpage"]),
         .text("\nOPTIONS"),
-        .parameter("help", "Show this help screen"),
-        .parameter("manpages", manpageSynopsis),
-        .parameter("shells", shellsSynopsis, .list(ShellType.cases)),
-        .parameter("productNames", "The names of products to install (default: executable products in the release directory)"),
+        .parameter("h__help", "Show this help screen"),
+        .parameter("m__manpages", manpageSynopsis),
+        .parameter("c__completionScripts", shellsSynopsis, .list(ShellType.cases)),
+        .parameter("_productNames", "The names of products to install (default: executable products in the release directory)"),
     ]
 
     static let helpOverview = """
@@ -92,9 +89,9 @@ struct InstallDef: CommandNodeDef {
         ]),
         .paragraph("DESCRIPTION", productNote),
         .paragraph("","The following options are available:"),
-        .parameter("help", "Show a help screen"),
-        .parameter("manpages", manpageSynopsis),
-        .parameter("shells", shellsSynopsis, .list(ShellType.cases)),
+        .parameter("h__help", "Show a help screen"),
+        .parameter("m__manpages", manpageSynopsis),
+        .parameter("c__completionScripts", shellsSynopsis, .list(ShellType.cases)),
         .parameter("generateManpage", "Generate the mdoc source for this manual page and write it to standard output"),
         .paragraph("\n", completionInstallationNote),
         .paragraph("\n", manpageInstallationNote),
@@ -121,9 +118,9 @@ struct InstallDef: CommandNodeDef {
     static let manpageInstallationNote = """
        By default, one manpage is installed for each product that can generate a manpage. I.e.,
        a product that has a $L{generateManpage} option. Alternatively, only the manpages
-       specified after $S{manpages} or $L{manpages} will be installed. Each name must be a 
+       specified after $S{m__manpages} or $L{m__manpages} will be installed. Each name must be a 
        product name or, for subcommands, subcommand path, separated by "/". For example,
-       "$S{manpages} caltool/install" generates a manual page for this subcommand named "caltool-install".
+       "$S{m__manpages} caltool/install" generates a manual page for this subcommand named "caltool-install".
        
        """
 

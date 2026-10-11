@@ -19,8 +19,8 @@ struct UninstallDef: CommandNodeDef {
 
     typealias Limit = Int
 
-    var confirmEach: Flag = false
-    var confirmEachLimit: Limit?? = nil
+    var i__confirmEach: Flag = false
+    var I__confirmOnce: Limit?? = nil
     var generateManpage: MetaFlag = MetaFlag(manpageElements: manpageElements)
     var help: MetaFlag = MetaFlag(helpElements: helpElements)
     var productNames: Variadic<Product> = []
@@ -29,22 +29,18 @@ struct UninstallDef: CommandNodeDef {
     func run(state: [GlobalOptions]) async throws -> [GlobalOptions] {
         guard let globalOptions = state.first else { fatalError() }
         let uninstaller = Uninstaller(globalOptions: globalOptions)
-        let limit: Limit? = if let confirmEachLimit, let confirmEachLimit { confirmEachLimit } else { nil }
-        try await uninstaller.uninstall(productNames, confirmEach: confirmEach, confirmEachLimit: limit)
+        let limit: Limit? = if let I__confirmOnce, let I__confirmOnce { I__confirmOnce } else { nil }
+        try await uninstaller.uninstall(productNames, confirmEach: i__confirmEach, confirmEachLimit: limit)
         return []
     }
 
-    private static let mainName = "uninstall"
-
-    var configuration: CommandNodeConfig<GlobalOptions>? = CommandNodeConfig(
-        commandName: mainName,
-        shadowGroups: ["confirmEach confirmEachLimit"],
-        embellishments: [
-            .embellish("confirmEach", label: "i__confirmEach"),
-            .embellish("confirmEachLimit", label: "I__confirmOnce", typeName: "Limit??"),
-            .embellish("productNames", label: "_", typeName: "Variadic<Product>"),
-            .embellish("help", label: "h__help"),
+    var attributes: CommandNodeAttributes<GlobalOptions>? = CommandNodeAttributes(
+        shadowGroups: ["i__confirmEach I__confirmOnce"],
+        typeNames: [
+            "I__confirmOnce":"Limit??",
+            "productNames":"Variadic<Product>",
         ],
+        commandName: "uninstall",
         commandSynopsis: "Uninstall executable products.",
     )
 
@@ -52,8 +48,8 @@ struct UninstallDef: CommandNodeDef {
         .text("DESCRIPTION\n", helpOverview),
         .synopsis("\nUSAGE\n", line: ["$*", "!generateManpage"],),
         .text("\nOPTIONS"),
-        .parameter("confirmEach", "Request confirmation before attempting to remove each product"),
-        .parameter("confirmEachLimit", "Request confirmation just once if more than $E{confirmEachLimit} products are being removed"),
+        .parameter("i__confirmEach", "Request confirmation before attempting to remove each product"),
+        .parameter("I__confirmOnce", "Request confirmation just once if more than $E{I__confirmOnce} products are being removed"),
         .parameter("help", "Show this help message"),
         .parameter( "productNames", "Names of products to uninstall (default: the names of products in the release directory)"),
         .text("\nNOTE\n", shadowNote),
@@ -65,11 +61,11 @@ struct UninstallDef: CommandNodeDef {
         """
 
     static let confirmEachLimitNote = """
-        Request confirmation just once if more than $E{confirmEachLimit} products are being removed (default: 
+        Request confirmation just once if more than $E{I__confirmOnce} products are being removed (default: 
         """
 
     static let shadowNote = """
-        The $S{confirmEach} and $S{confirmEachLimit} options override each other; the last one specified
+        The $S{i__confirmEach} and $S{I__confirmOnce} options override each other; the last one specified
         determines how product removal is confirmed.
         """
 
@@ -82,8 +78,8 @@ struct UninstallDef: CommandNodeDef {
         .paragraph("DESCRIPTION", manpageOverview1),
         .paragraph("", manpageOverview2),
         .paragraph("", "The following options are available:"),
-        .parameter("confirmEach", "Request confirmation before attempting to remove each file"),
-        .parameter("confirmEachLimit", "Request confirmation just once if more than $E{confirmEachLimit} products are being removed"),
+        .parameter("i__confirmEach", "Request confirmation before attempting to remove each file"),
+        .parameter("I__confirmOnce", "Request confirmation just once if more than $E{I__confirmOnce} products are being removed"),
         .parameter("generateManpage", "Generate the mdoc source for this manual page and write it to standard output"),
         .parameter("help", "Show a help screen"),
         .paragraph("\n", shadowNote),
