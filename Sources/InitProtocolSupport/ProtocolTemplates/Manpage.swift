@@ -28,37 +28,30 @@ typealias Count = Int
 @main
 struct TARGET_NAME: MainFunctionDef {
 
-    var includeIndex: Flag = false 
-    var upper: Flag = false
-    var lower: Flag = false
-    var repeats: Count?? = Optional(.none)
-    var greeting: Greeting = "Hello"
-    var name: Name? = nil
+    var i__includeIndex: Flag = false 
+    var u__upper: Flag = false
+    var l__lower: Flag = false
+    var c__count: Count?? = nil
+    var g__greeting: Greeting = "Hello"
+    var _name: Name? = nil
     var generateManpage: MetaFlag = MetaFlag(manpageElements: manpageElements) COMPLETION_PARAMETER_LINE 
-    var version: MetaFlag = MetaFlag(string: "version 0.1.0")
-    var help: MetaFlag = MetaFlag(helpElements: helpElements)
+    var v__version: MetaFlag = MetaFlag(string: "version 0.1.0")
+    var h__help: MetaFlag = MetaFlag(helpElements: helpElements)
 
     var attributes: MainFunctionAttributes? = MainFunctionAttributes(
-        shadowGroups: ["lower upper"],
-        embellishments: [
-            .embellish("includeIndex", label: "i"),
-            .embellish("upper", label: "u"),
-            .embellish("lower", label: "l"),
-            .embellish("repeats", label: "c__count", typeName: "Count??"),
-            .embellish("greeting", label: "g__greeting", typeName: "Greeting"),
-            .embellish("name", label: "_", typeName: "Name?"),
-            .embellish("version", label: "v__version"), COMPLETION_TYPENAME_LINE
-            .embellish("help", label: "h__help"),
+        shadowGroups: ["l__lower u__upper"],
+        typeNames: [
+            "c__count": "Count??", COMPLETION_TYPENAME_LINE
         ],
     )
 
     func run() throws {
-        let count = if let repeats, let repeats, repeats > 0 { repeats } else { Int.random(in: 1...3) }
-        var text = "\\(greeting) \\(name!)"
-        text = lower ? text.lowercased() : upper ? text.uppercased() : text
+        let count = if let c__count, let c__count, c__count > 0 { c__count } else { Int.random(in: 1...3) }
+        var text = "\\(g__greeting) \\(_name!)"
+        text = l__lower ? text.lowercased() : u__upper ? text.uppercased() : text
         for index in 1...count {
-            var text = (includeIndex ? "\\(index) " : "") + "\\(greeting) \\(name!)"
-            if upper { text = text.uppercased() }
+            var text = (i__includeIndex ? "\\(index) " : "") + "\\(g__greeting) \\(_name!)"
+            if u__upper { text = text.uppercased() }
             print(text)
         }
     } COMPLETION_GENERATOR_LINES
@@ -67,32 +60,32 @@ struct TARGET_NAME: MainFunctionDef {
         .text("DESCRIPTION\\n", "Greet a person repeatedly."),
         .synopsis("\\nUSAGE\\n"),
         .text("\\nARGUMENT"),
-        .parameter("name", "The name of the person to greet"),
+        .parameter("_name", "The name of the person to greet"),
         .text("\\nOPTIONS"),
-        .parameter("repeats", "Repeat the greeting $E{repeats} times (the default is a random integer between 1 and 3)"),
-        .parameter("greeting", "The greeting to print"),
-        .parameter("includeIndex", "Show index of repeated greetings"),
-        .parameter("lower", "Print text in lower case"),
-        .parameter("upper", "Print text in upper case"),
+        .parameter("c__count", "Repeat the greeting $E{c__count} times (the default is a random integer between 1 and 3)"),
+        .parameter("g__greeting", "The greeting to print"),
+        .parameter("i__includeIndex", "Show index of repeated greetings"),
+        .parameter("l__lower", "Print text in lowercase"),
+        .parameter("u__upper", "Print text in uppercase"),
         .parameter("generateManpage", "Generate a manual page"), COMPLETION_SHOW_ELEMENT_LINE
-        .parameter("version", "Show version information"),
-        .parameter("help", "Show help information"),
+        .parameter("v__version", "Show version information"),
+        .parameter("h__help", "Show help information"),
         .text("\\nNOTE\\n", note1),
     ]
 
     private static let manpageElements: [ShowElement] = [
         .prologue(description: "print a greeting."),
         .synopsis(),
-        .paragraph("DESCRIPTION", "Print $T{greeting}, followed by $E{name}, $E{repeats} times."),
+        .paragraph("DESCRIPTION", "Print $T{g__greeting}, followed by $E{_name}, $E{c__count} times."),
         .paragraph("", "The following options are available:"),
-        .parameter("greeting", "The greeting to print"),
-        .parameter("includeIndex", "Show index of repeated greetings"),
-        .parameter("lower", "Print text in lower case"),
-        .parameter("repeats", "Repeat the greeting $E{repeats} times (the default is a random integer between 1 and 3)"),
-        .parameter("upper", "Print text in upper case"),
+        .parameter("g__greeting", "The greeting to print"),
+        .parameter("i__includeIndex", "Show index of repeated greetings"),
+        .parameter("l__lower", "Print text in lowercase"),
+        .parameter("c__count", "Repeat the greeting $E{c__count} times (the default is a random integer between 1 and 3)"),
+        .parameter("u__upper", "Print text in uppercase"),
         .parameter("generateManpage", "Generate this manual page"), COMPLETION_SHOW_ELEMENT_LINE
-        .parameter("version", "Show version information"),
-        .parameter("help", "Show help information"),
+        .parameter("v__version", "Show version information"),
+        .parameter("h__help", "Show help information"),
         .paragraph("", note1),
         .mdoc(exitStatus),
         .mdoc(examples),
@@ -101,7 +94,7 @@ struct TARGET_NAME: MainFunctionDef {
     ]
 
     private static let note1 = \"\"\"
-        The $S{lower} and $S{upper} options shadow each other; only the last one specified
+        The $S{l__lower} and $S{u__upper} options shadow each other; only the last one specified
         is applicable.
         \"\"\"
 
