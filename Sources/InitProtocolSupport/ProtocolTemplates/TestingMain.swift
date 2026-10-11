@@ -17,12 +17,10 @@ let testingMain = """
 
 import TARGET_NAMESupport
 
-import MyTestSupport
-
 @main
 struct Main {
     static func main() async {
-        let _ = await MyTestSupport.main()
+        let _ = await TARGET_NAMESupport.main()
     }
 }
 """

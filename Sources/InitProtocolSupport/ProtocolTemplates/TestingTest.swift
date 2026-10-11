@@ -20,26 +20,6 @@ let testingTest = """
     import Testing
     @testable import TARGET_NAMESupport
     
-    // These tests do not require CmdArgLibCore or CmdArgLibTestSupport
-    struct TARGET_NAMETest {
-
-        @Test func showAnimalsTest() throws {
-            var result = try TARGET_NAMESupport.showAnimals([.bear, .fox], count: 1, index: false)
-            #expect(result == "bear and fox")
-
-            result = try TARGET_NAMESupport.showAnimals([.bear, .fox], count: 1, index: false, upper: true)
-            #expect(result == "BEAR AND FOX")
-
-            result = try TARGET_NAMESupport.showAnimals([.bear, .fox], count: 1, index: false, lower: true)
-            #expect(result == "bear and fox")
-
-            result = try TARGET_NAMESupport.showAnimals([.bear, .fox], count: 2, index: true)
-            #expect(result == "1: bear and fox\\n2: bear and fox")
-
-            result = try TARGET_NAMESupport.showAnimals([], count: 1, index: false)
-            #expect(result == "")
-        }
-    }
     
     // These require CmdArgLibCore and CmdArgLibTestSupport
     struct TARGET_NAMEOutputTests {
@@ -50,7 +30,7 @@ let testingTest = """
             1: WOLF
             2: WOLF
             \"\"\"
-            let ok = await testOutput(of: TARGET_NAMESupport().commandNode.run, with: input, expecting: output)
+            let ok = await testOutput(of: TARGET_NAME.run, with: input, expecting: output)
             #expect(ok)
         }
 
@@ -63,7 +43,7 @@ let testingTest = """
               missing value: "<animal>"
             See "PRODUCT_NAME --help" for more information.
             \"\"\"
-            let ok = await testOutput(of: TARGET_NAMESupport().commandNode.run, with: input, expecting: output)
+            let ok = await testOutput(of: TARGET_NAME.run, with: input, expecting: output)
             #expect(ok)
         }
     
@@ -78,25 +58,11 @@ let testingTest = """
               missing an "<animal>"
             See "PRODUCT_NAME --help" for more information.
             \"\"\"
-            let ok = await testOutput(of: TARGET_NAMESupport().commandNode.run, with: input, expecting: output)
+            let ok = await testOutput(of: TARGET_NAME.run, with: input, expecting: output)
             #expect(ok)
         }
         */
     }
     """
 
-
-let minimalTestingTest = """
-    // Copyright (c) <YEAR> <AUTHOR>
-
-    import Testing
-
-    @testable import TARGET_NAMESupport
-
-    struct TARGET_NAMETest {
-        @Test func showAnimalsTest() throws {
-            let result = TARGET_NAMESupport.showAnimals()
-            #expect(result == "gnu")
-        }
-    }
-    """
+let minimalTestingTest = testingTest

@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+
 let testingSupport = """
 // Copyright (c) <YEAR> <AUTHOR>
 
@@ -19,132 +20,66 @@ import CmdArgLibCore
 import CmdArgLibProtocols
 import CmdArgLibHelpScreen COMPLETION_IMPORT_LINE
 
-public typealias Count = Int
+public struct TARGET_NAME: MainFunctionDef {
+    enum Animal: String, CmdArgEnum { case bear, fox, wolf }
 
-public enum Animal: String, CmdArgEnum { case bear, fox, wolf}
-
-public struct TARGET_NAMESupport: CommandNodeDef {
-
-    public init() {}
+    public init(){}
 
     var version: MetaFlag = MetaFlag(string: "version 0.1.0") COMPLETION_PARAMETER_LINE
-    var upper: Flag = false
-    var lower: Flag = false
-    var index: Flag = false
-    var count: Count = 1
-    var animals: Variadic<Animal>? = nil
-    var help: MetaFlag = MetaFlag(helpElements: helpElements)
+    var h__help: MetaFlag = MetaFlag(helpElements: helpElements)
+    var i__index: Flag = false
+    var l: Flag = false
+    var u: Flag = false
+    var count: Int?? = nil
+    var _animals: Variadic<Animal>? = nil
 
-    public var configuration: CommandNodeConfig<Void>? = CommandNodeConfig(
-        commandName: "PRODUCT_NAME",
-        shadowGroups: ["lower upper"],
-        embellishments: [
-            .embellish("upper", label: "u"),
-            .embellish("lower", label: "l"),
-            .embellish("index", label: "i__index"),
-            .embellish("count", label: "c__count", typeName: "Count"),
-            .embellish("animals", label: "_", typeName: "Variadic<Animal>?"), COMPLETION_TYPENAME_LINE
-            .embellish("version", label: "v__version"), COMPLETION_TYPENAME_LINE
-            .embellish("help", label: "h__help"),
+    var attributes: MainFunctionAttributes? = MainFunctionAttributes(
+        shadowGroups: ["l u"],
+        typeNames: [
+           "_animals":"Variadic<Animal>?", COMPLETION_TYPENAME_LINE
         ],
     )
 
-    public func run(state: [()]) async throws -> [Void] {
-        let output = try Self.showAnimals(animals!, count: count, index: index, upper: upper, lower: lower)
-        throw Exception.stdout(output)
-    } COMPLETION_GENERATOR_LINES
-
-    public static let helpElements: [ShowElement] = [
-        .text("DESCRIPTION\\n", "Print lines containing the names of animals."),
-        .synopsis("\\nUSAGE\\n"),
-        .text("\\nARGUMENT"),
-        .parameter("animals", "The name of an animal (can be repeated)", .list(Animal.cases)),
-        .text("\\nOPTIONS"),
-        .parameter("count", "The number of times to repeat the line"),
-        .parameter("index", "Prefix each line with an index"),
-        .parameter("upper", "Print text in upper case"),
-        .parameter("lower", "Print text in lower case"),
-        .parameter("help", "Show this help message"), COMPLETION_SHOW_ELEMENT_LINE
-        .parameter("version", "Show version information"),
-        .text("\\nNOTES:\\n", note1),
-        .text("\\n", note2),
-    ]
-
-    private static let note1 = \"\"\"
-        The available animals are \\(Animal.casesJoinedWith("and")).
-        \"\"\"
-
-    private static let note2 = \"\"\"
-        The $S{upper} and $S{lower} options shadow each other. The last one encountered, if
-        any, determines the case of the printed text.
-        \"\"\"
-}
-
-extension TARGET_NAMESupport {
-
-    public static func showAnimals(
-        _ animals: [Animal], count: Count, index: Bool, upper: Bool = false, lower: Bool = false) throws -> String
+    public func run() throws
     {
-        if count < 1 || count > 3 {
-            throw Exception.errors(["$T{count} must be between 1 and 3."])
+        let repeats = if let count { count! } else { Int.random(in: 1...3) }
+        if repeats < 1 || repeats > 3 {
+            throw Exception.error("$T{count} must be between 1 and 3.")
         }
-        let animalsString = string(of: animals)
+        let animalsString = _animals!.map { $0.rawValue }.joinedWith("and")
         var lines: [String] = []
-        for i in 1...count {
-            let indexString = index ? "\\(i): " : ""
+        for i in 1...repeats {
+            let indexString = i__index ? "\\(i): " : ""
             lines.append(indexString + animalsString)
         }
-        var text = lines.joined(separator: "\\n")
-        if upper { text = text.uppercased() }
-        if lower { text = text.lowercased() }
-        return text
-    }
-
-    static func string(of animals: [Animal]) -> String {
-        animals.map{$0.rawValue}.joinedWith("and")
-    }
-}
-"""
-
-let minimalTestingSupport = """
-// Copyright (c) <YEAR> <AUTHOR>
-
-import CmdArgLibCore
-import CmdArgLibProtocols
-import CmdArgLibHelpScreen COMPLETION_IMPORT_LINE
-
-
-public struct TARGET_NAMESupport: CommandNodeDef {
-
-    public init() {}
-
-    var version: MetaFlag = MetaFlag(string: "version 0.1.0") COMPLETION_PARAMETER_LINE
-    var help: MetaFlag = MetaFlag(helpElements: helpElements)
-
-    public var configuration: CommandNodeConfig<Void>? = CommandNodeConfig(
-        commandName: "PRODUCT_NAME",
-        embellishments: [
-            .embellish("version", label: "v__version"), COMPLETION_TYPENAME_LINE
-            .embellish("help", label: "h__help"),
-        ],
-    )
-
-    public func run(state: [()]) async throws -> [Void] {
-        let output = Self.showAnimals()
-        throw Exception.stdout(output)
+        var line = lines.joined(separator: "\\n")
+        line = l ? line.lowercased() : u ? line.uppercased() : line
+        throw Exception.stdout(line)
     } COMPLETION_GENERATOR_LINES
 
-    public static let helpElements: [ShowElement] = [
-        .text("DESCRIPTION\\n", "Describe GNU"),
+    static let helpElements: [ShowElement] = [
+        .text("DESCRIPTION\\n", "Print out the names of specified animals."),
         .synopsis("\\nUSAGE\\n"),
+        .text("\\nOPERANDS"),
+        .parameter("_animals", "The names of the animals to print", .list(Animal.cases)),
         .text("\\nOPTIONS"),
-        .parameter("help", "Show this help message"), COMPLETION_SHOW_ELEMENT_LINE
-        .parameter("version", "Show version information"),
-        .text("\\nNOTES\\n", "A gnu is an animal."),
+        .parameter("h__help", "Show this help message"),
+        .parameter("i__index", "Add line numbers to output"),
+        .parameter("l", "Lowercase the message"),
+        .parameter("u", "Uppercase the message"),
+        .parameter("count", "Repeat the greeting $E{count} times (the default is a random integer between 1 and 3)"),
+        .parameter("version", "Show version information"), COMPLETION_SHOW_ELEMENT_LINE
+        .text("\\nNOTES\\n", notes),
     ]
 
-    public static func showAnimals() -> String {
-        return "gnu"
-    }
+    static let notes = \"\"\"
+        Each $E{_animals} can be \\(Animal.orCases())."
+
+        The $S{l} and $S{u} options shadow each other; the last one encountered
+        determines the format.
+        \"\"\"
 }
+
 """
+
+let minimalTestingSupport = testingSupport
