@@ -29,7 +29,7 @@ struct TARGET_NAME: CommandNodeDef {
     var configuration: CommandNodeConfig<Void>? = CommandNodeConfig(
        embellishments: [
            .embellish("tree", label: "t__tree"),
-           .embellish("version", label: "v__version"), COMPLETION_EMBELLISHMET_LINE
+           .embellish("version", label: "v__version"), COMPLETION_TYPENAME_LINE
            .embellish("help", label: "h__help"),
        ],
        commandSynopsis: "Simulate children speaking.",

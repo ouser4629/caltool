@@ -25,18 +25,16 @@ struct TARGET_NAME: MainFunctionDef {
 
     var version: MetaFlag = MetaFlag(string: "version 0.1.0") COMPLETION_PARAMETER_LINE
     var h__help: MetaFlag = MetaFlag(helpElements: helpElements)
-    var index: Flag = false
+    var i__index: Flag = false
     var l: Flag = false
     var u: Flag = false
     var count: Int?? = nil
-    var animals: Variadic<Animal>? = nil
+    var _animals: Variadic<Animal>? = nil
 
     var attributes: MainFunctionAttributes? = MainFunctionAttributes(
         shadowGroups: ["l u"],
-        embellishments: [
-            .embellish("index", label: "i__index"),
-            .embellish("animals", label: "_", typeName: "Variadic<Animal>?"), COMPLETION_EMBELLISHMET_LINE
-            .embellish("help", label: "h__help"),
+        typeNames: [
+           "_animals":"Variadic<Animal>?", COMPLETION_TYPENAME_LINE
         ],
     )
 
@@ -46,10 +44,10 @@ struct TARGET_NAME: MainFunctionDef {
         if repeats < 1 || repeats > 3 {
             throw Exception.error("$T{count} must be between 1 and 3.")
         }
-        let animalsString = animals!.map { $0.rawValue }.joinedWith("and")
+        let animalsString = _animals!.map { $0.rawValue }.joinedWith("and")
         var lines: [String] = []
         for i in 1...repeats {
-            let indexString = index ? "\\(i): " : ""
+            let indexString = i__index ? "\\(i): " : ""
             lines.append(indexString + animalsString)
         }
         var line = lines.joined(separator: "\\n")
@@ -61,10 +59,10 @@ struct TARGET_NAME: MainFunctionDef {
         .text("DESCRIPTION\\n", "Print out the names of specified animals."),
         .synopsis("\\nUSAGE\\n"),
         .text("\\nOPERANDS"),
-        .parameter("animals", "The names of the animals to print", .list(Animal.cases)),
+        .parameter("_animals", "The names of the animals to print", .list(Animal.cases)),
         .text("\\nOPTIONS"),
         .parameter("h__help", "Show this help message"),
-        .parameter("index", "Add line numbers to output"),
+        .parameter("i__index", "Add line numbers to output"),
         .parameter("l", "Lowercase the message"),
         .parameter("u", "Uppercase the message"),
         .parameter("count", "Repeat the greeting $E{count} times (the default is a random integer between 1 and 3)"),
@@ -73,7 +71,7 @@ struct TARGET_NAME: MainFunctionDef {
     ]
 
     static let notes = \"\"\"
-        Each $E{animals} can be \\(Animal.orCases())."
+        Each $E{_animals} can be \\(Animal.orCases())."
 
         The $S{l} and $S{u} options shadow each other; the last one encountered
         determines the format.

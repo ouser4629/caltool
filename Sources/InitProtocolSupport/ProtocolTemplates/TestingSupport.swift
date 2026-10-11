@@ -43,8 +43,8 @@ public struct TARGET_NAMESupport: CommandNodeDef {
             .embellish("lower", label: "l"),
             .embellish("index", label: "i__index"),
             .embellish("count", label: "c__count", typeName: "Count"),
-            .embellish("animals", label: "_", typeName: "Variadic<Animal>?"), COMPLETION_EMBELLISHMET_LINE
-            .embellish("version", label: "v__version"), COMPLETION_EMBELLISHMET_LINE
+            .embellish("animals", label: "_", typeName: "Variadic<Animal>?"), COMPLETION_TYPENAME_LINE
+            .embellish("version", label: "v__version"), COMPLETION_TYPENAME_LINE
             .embellish("help", label: "h__help"),
         ],
     )
@@ -124,7 +124,7 @@ public struct TARGET_NAMESupport: CommandNodeDef {
     public var configuration: CommandNodeConfig<Void>? = CommandNodeConfig(
         commandName: "PRODUCT_NAME",
         embellishments: [
-            .embellish("version", label: "v__version"), COMPLETION_EMBELLISHMET_LINE
+            .embellish("version", label: "v__version"), COMPLETION_TYPENAME_LINE
             .embellish("help", label: "h__help"),
         ],
     )

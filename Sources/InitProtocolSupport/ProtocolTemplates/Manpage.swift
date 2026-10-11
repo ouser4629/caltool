@@ -47,7 +47,7 @@ struct TARGET_NAME: MainFunctionDef {
             .embellish("repeats", label: "c__count", typeName: "Count??"),
             .embellish("greeting", label: "g__greeting", typeName: "Greeting"),
             .embellish("name", label: "_", typeName: "Name?"),
-            .embellish("version", label: "v__version"), COMPLETION_EMBELLISHMET_LINE
+            .embellish("version", label: "v__version"), COMPLETION_TYPENAME_LINE
             .embellish("help", label: "h__help"),
         ],
     )

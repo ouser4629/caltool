@@ -39,7 +39,7 @@ let completionTargetDependencyWordTemplate = "\"CmdArgLibCompletions\","
 
 let completionImportLineKey = "COMPLETION_IMPORT_LINE"
 let completionParameterLineKey = "COMPLETION_PARAMETER_LINE"
-let completionEmbellishmentKey = "COMPLETION_EMBELLISHMET_LINE"
+let completionTypeNameKey = "COMPLETION_TYPENAME_LINE"
 let completionGeneratorLinesKey = "COMPLETION_GENERATOR_LINES"
 let completionShowElementsKey = "COMPLETION_SHOW_ELEMENT_LINE"
 
@@ -52,7 +52,7 @@ let completionParameterLineTemplate = """
 
 let completionEmbellismentLineTemplate = """
 
-           .embellish("generateCompletionScript", typeName: "MetaOption<Shell>"),
+           "generateCompletionScript":"MetaOption<Shell>",
 """
 
 let completionGeneratorLinesTemplate = """
@@ -91,7 +91,7 @@ public struct Initializer {
     let completionImportLine: String
     let completionGeneratorLines: String
     let completionParameterLine: String
-    let completionEmbellishmentLine: String
+    let completionTypeNameLine: String
     let completionShowElementLine: String
     public init(template: Template, product maybeName: String?, populate: Bool, completion: Bool, directory: String? = nil) throws
     {
@@ -118,7 +118,7 @@ public struct Initializer {
                 generatorLines = completionGeneratorLinesTemplate.replacingOccurrences(of: "PRODUCT_NAME", with: executableName)
             }
             self.completionParameterLine = completionParameterLineTemplate.replacingOccurrences(of: "PRODUCT_NAME", with: executableName)
-            self.completionEmbellishmentLine = completionEmbellismentLineTemplate
+            self.completionTypeNameLine = completionEmbellismentLineTemplate
             self.completionGeneratorLines = generatorLines
             self.completionShowElementLine = completionShowElemenTemplate
         }
@@ -126,7 +126,7 @@ public struct Initializer {
             self.completionPackageDependencyLine = ""
             self.completionTargetDependencyWord = ""
             self.completionImportLine = ""
-            self.completionEmbellishmentLine = ""
+            self.completionTypeNameLine = ""
             self.completionGeneratorLines = ""
             self.completionParameterLine = ""
             self.completionShowElementLine = ""
@@ -239,7 +239,7 @@ extension Initializer {
         filledTemplate = filledTemplate.replacingOccurrences(of: targetNameKey, with: packageName)
         filledTemplate = filledTemplate.replacingOccurrences(of: completionImportLineKey, with: completionImportLine)
         filledTemplate = filledTemplate.replacingOccurrences(of: completionParameterLineKey, with: completionParameterLine)
-        filledTemplate = filledTemplate.replacingOccurrences(of: completionEmbellishmentKey, with: completionEmbellishmentLine)
+        filledTemplate = filledTemplate.replacingOccurrences(of: completionTypeNameKey, with: completionTypeNameLine)
         filledTemplate = filledTemplate.replacingOccurrences(of: completionGeneratorLinesKey, with: completionGeneratorLines)
         filledTemplate = filledTemplate.replacingOccurrences(of: completionShowElementsKey, with: completionShowElementLine)
         return filledTemplate
