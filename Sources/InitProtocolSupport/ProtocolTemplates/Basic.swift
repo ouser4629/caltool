@@ -24,7 +24,7 @@ struct TARGET_NAME: MainFunctionDef {
     enum Animal: String, CmdArgEnum { case bear, fox, wolf }
 
     var version: MetaFlag = MetaFlag(string: "version 0.1.0") COMPLETION_PARAMETER_LINE
-    var help: MetaFlag = MetaFlag(helpElements: helpElements)
+    var h__help: MetaFlag = MetaFlag(helpElements: helpElements)
     var index: Flag = false
     var l: Flag = false
     var u: Flag = false
@@ -63,8 +63,8 @@ struct TARGET_NAME: MainFunctionDef {
         .text("\\nOPERANDS"),
         .parameter("animals", "The names of the animals to print", .list(Animal.cases)),
         .text("\\nOPTIONS"),
-        .parameter("help", "Show this help message"),
-        .parameter("index", "Show this help message"),
+        .parameter("h__help", "Show this help message"),
+        .parameter("index", "Add line numbers to output"),
         .parameter("l", "Lowercase the message"),
         .parameter("u", "Uppercase the message"),
         .parameter("count", "Repeat the greeting $E{count} times (the default is a random integer between 1 and 3)"),
