@@ -315,7 +315,7 @@ If you are not familiar with `less`, which is used to view manual pages, press "
 <details>
 <summary>Prepare</summary>
 
-These instructions have worked for me on macOS. They assume common local installation paths for fish, zsh, and bash.
+These instructions have worked for me on macOS. They assume common local installation paths for fish and zsh.
 
 Adjust as needed for your operating system and environment. Use with caution.
 
