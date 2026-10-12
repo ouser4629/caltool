@@ -82,4 +82,38 @@ public struct TARGET_NAME: MainFunctionDef {
 
 """
 
-let minimalTestingSupport = testingSupport
+let minimalTestingSupport = """
+// Copyright (c) <YEAR> <AUTHOR>
+
+import CmdArgLibCore
+import CmdArgLibProtocols
+import CmdArgLibHelpScreen COMPLETION_IMPORT_LINE
+
+public struct TARGET_NAME: MainFunctionDef {
+
+   public init(){}
+
+    var u__upper: Flag = false
+    var version: MetaFlag = MetaFlag(string: "version 0.1.0")
+    var h__help: MetaFlag = MetaFlag(helpElements: helpElements) COMPLETION_PARAMETER_LINE
+
+    public var attributes: MainFunctionAttributes? = nil
+
+    public func run() throws
+    {
+        var line = "A gnu is an animal."
+        if u__upper { line = line.uppercased()}
+        throw Exception.stdout(line)
+    } COMPLETION_GENERATOR_LINES
+
+    static let helpElements: [ShowElement] = [
+        .text("DESCRIPTION\\n", "Explain GNU."),
+        .synopsis("\\nUSAGE\\n"),
+        .text("\\nOPTIONS"),
+        .parameter("u__upper", "Uppercase the output"),
+        .parameter("h__help", "Show this help message"),
+        .parameter("version", "Show version information"), COMPLETION_SHOW_ELEMENT_LINE
+        .text("\\nNOTES\\n", "A gnu is an animal."),
+    ]
+}
+"""
