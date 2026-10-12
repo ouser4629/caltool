@@ -67,7 +67,7 @@ struct Caltool: CommandNodeDef {
 
     private static let helpElements: [ShowElement] = [
         .text("DESCRIPTION\n", "Create and manage Swift executable products."),
-        .synopsis("\nUSAGE\n", line: ["help",  "tree", "version", "$_:Variadic<ConfigurationOption>=", "$_:Subcommand"]),
+        .synopsis("\nUSAGE\n", line: ["h__help",  "t__tree", "v__version", "$_:Variadic<ConfigurationOption>=", "$_:Subcommand"]),
         .text("\nOPTIONS"),
         .parameter("h__help", "Show this help screen"),
         .parameter("t__tree", "Show the command hierarchy"),
@@ -82,7 +82,7 @@ struct Caltool: CommandNodeDef {
     static let manpageElements: [ShowElement] = [
         .prologue(description: "create and manage Swift executable products"),
         .synopsis(lines: [
-            ["h__help",  "tree", "version","$_:Subcommand"],
+            ["h__help",  "t__tree", "v__version","$_:Subcommand"],
             ["$generateCompletionScript:Variadic<Shell>="],
             ["$generateManpage:Flag="],
         ]),

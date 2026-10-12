@@ -315,26 +315,55 @@ If you are not familiar with `less`, which is used to view manual pages, press "
 <details>
 <summary>Prepare</summary>
 
-These instructions are for installing on macOS. They assume common local installation paths for fish and zsh. 
+These instructions have worked for me on macOS. They assume common local installation paths for fish, zsh, and bash.
 
-Adjust as needed for your operating system and environment.
+Adjust as needed for your operating system and environment. Use with caution.
 
-* For fish
-  * mkdir -p ~/.local/bin 
-  * mkdir -p ~/.config/fish/completions
-  * mkdir -p ~/.local/share/man/man1
-  * fish_add_path -a ~/.local/bin
-  * add "set -gx MANPATH ~/.local/share/man/man1 "" $MANPATH" to ~/.config/fish
-  
-* For zsh
-  * mkdir -p ~/.local/bin 
-  * mkdir -p ~/.config/zsh/completions
-  * mkdir -p ~/.local/share/man/man1
-  * add "path=(/Users/<your-id>/.local/bin $path)" to your zshrc file
-  * add "fpath=(/Users/<your-id>/.config/zsh/completions $fpath)" to your zshrc file
-  * add "export MANPATH="$HOME/.local/share/man/man1:$MANPATH:"" to your zshrc file
-  * start a new terminal so the changes take effect
-  
+### For fish shell
+
+Set up the directories and add `~/.local/bin` to `PATH`:
+
+```fish
+mkdir -p ~/.local/bin
+mkdir -p ~/.config/fish/completions
+mkdir -p ~/.local/share/man
+fish_add_path -a ~/.local/bin
+```
+
+Add the following to `~/.config/fish/config.fish`:
+
+```fish
+# Local manpages
+if not contains ~/.local/share/man $MANPATH
+    set -gx MANPATH $MANPATH ~/.local/share/man
+end
+```
+
+### For zsh
+
+Create the directories:
+
+```sh
+mkdir -p ~/.local/bin
+mkdir -p ~/.config/zsh/completions
+mkdir -p ~/.local/share/man
+```
+
+Add the following to `~/.zshrc`:
+
+```sh
+# Local executables
+export PATH="${PATH:+$PATH:}$HOME/.local/bin"
+
+# Local shell completions
+fpath=($fpath "$HOME/.config/zsh/completions")
+
+# Local manpages
+export MANPATH="${MANPATH:+$MANPATH:}$HOME/.local/share/man"
+```
+
+Ensure the `fpath` assignment occurs before zsh initializes its completion system.
+
 </details>
 
 <details>
