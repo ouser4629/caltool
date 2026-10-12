@@ -33,7 +33,7 @@ public struct TARGET_NAME: MainFunctionDef {
     var count: Int?? = nil
     var _animals: Variadic<Animal>? = nil
 
-    var attributes: MainFunctionAttributes? = MainFunctionAttributes(
+    public var attributes: MainFunctionAttributes? = MainFunctionAttributes(
         shadowGroups: ["l u"],
         typeNames: [
            "_animals":"Variadic<Animal>?", COMPLETION_TYPENAME_LINE

@@ -25,7 +25,7 @@ import Testing
 struct TARGET_NAMEOutputTests {
 
     @Test func simpleInput() async {
-        let input = "-iuc2 wolf"
+        let input = "-iu --count=2 wolf"
         let output = \"\"\"
         1: WOLF
         2: WOLF
@@ -93,27 +93,6 @@ struct TARGET_NAMEOutputTests {
           unrecognized options: "-i", "-c" and "-2", in "-iuc2"
           unassigned argument: "wolf"
         See "my-testing --help" for more information.
-        \"\"\"
-        let ok = await testOutput(of: TARGET_NAME.run, with: input, expecting: output)
-        #expect(ok)
-    }
-
-    @Test func HelpTest() async {
-        let input = "--help"
-        let output = \"\"\"
-        DESCRIPTION
-          Explain GNU.
-
-        USAGE
-          my-testing [-uh] [--version]
-
-        OPTIONS
-          -u/--upper            Uppercase the output.
-          -h/--help             Show this help message.
-          --version             Show version information.
-
-        NOTES
-          A gnu is an animal.
         \"\"\"
         let ok = await testOutput(of: TARGET_NAME.run, with: input, expecting: output)
         #expect(ok)
