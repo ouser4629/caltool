@@ -333,10 +333,15 @@ fish_add_path -a ~/.local/bin
 Add the following to `~/.config/fish/config.fish`:
 
 ```fish
-# Local manpages
-if not contains ~/.local/share/man $MANPATH
-    set -gx MANPATH $MANPATH ~/.local/share/man
+# Safely append a custom directory to MANPATH without wiping out system manpages
+if not set -q MANPATH
+    # If MANPATH is empty, initialize it with the system defaults plus an empty element
+    set -gx MANPATH "" $HOME/.local/share/man
+else if not contains $HOME/.local/share/man $MANPATH
+    # If MANPATH already exists, append the directory safely
+    set -gx MANPATH $MANPATH $HOME/.local/share/man
 end
+
 ```
 
 ### For zsh
@@ -358,8 +363,14 @@ export PATH="${PATH:+$PATH:}$HOME/.local/bin"
 # Local shell completions
 fpath=($fpath "$HOME/.config/zsh/completions")
 
-# Local manpages
-export MANPATH="${MANPATH:+$MANPATH:}$HOME/.local/share/man"
+# Safely append a custom directory to MANPATH without wiping out system manpages
+if [[ -z "$MANPATH" ]]; then
+    # If MANPATH is empty, initialize it with a leading colon plus your custom path
+    export MANPATH=":$HOME/.local/share/man"
+elif [[ :$MANPATH: != *:$HOME/.local/share/man:* ]]; then
+    # If MANPATH already exists and doesn't contain your path, append it safely
+    export MANPATH="$MANPATH:$HOME/.local/share/man"
+fi
 ```
 
 Ensure the `fpath` assignment occurs before zsh initializes its completion system.
