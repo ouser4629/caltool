@@ -319,44 +319,44 @@ These instructions have worked for me on macOS. They assume common local install
 
 Adjust as needed for your operating system and environment. Use with caution.
 
-### For fish shell
+### Set up the default directories
 
-Set up the directories and add `~/.local/bin` to `PATH`:
-
-```fish
+```
 mkdir -p ~/.local/bin
 mkdir -p ~/.config/fish/completions
 mkdir -p ~/.local/share/man
-fish_add_path -a ~/.local/bin
+```
+
+### For fish shell
+
+Add `~/.local/bin` to `PATH`:
+
+```fish
+> fish_add_path -a ~/.local/bin
 ```
 
 Add the following to `~/.config/fish/config.fish`:
 
 ```fish
-# Safely append a custom directory to MANPATH without wiping out system manpages
+# Safely append .local/share/man to MANPATH without wiping out system manpages
 if not set -q MANPATH
-    # If MANPATH is empty, initialize it with the system defaults plus an empty element
-    set -gx MANPATH "" $HOME/.local/share/man
+    # If MANPATH is empty, initialize it with the system defaults appending
+    # the local directory
+    set -ge MANPATH
+    set -gx MANPATH (string split : (manpath)) $HOME/.local/share/man
 else if not contains $HOME/.local/share/man $MANPATH
     # If MANPATH already exists, append the directory safely
     set -gx MANPATH $MANPATH $HOME/.local/share/man
 end
 
+
 ```
 
 ### For zsh
 
-Create the directories:
+Add the following to your .zshrc file:
 
-```sh
-mkdir -p ~/.local/bin
-mkdir -p ~/.config/zsh/completions
-mkdir -p ~/.local/share/man
 ```
-
-Add the following to `~/.zshrc`:
-
-```sh
 # Local executables
 export PATH="${PATH:+$PATH:}$HOME/.local/bin"
 
