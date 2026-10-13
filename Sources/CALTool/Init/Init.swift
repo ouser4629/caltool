@@ -74,7 +74,7 @@ struct InitDef: CommandNodeDef {
         .parameter("h__help", "Show this help screen"),
         .parameter("m__useMacros", protocolNote),
         .parameter("c__withCompletion", completionNote),
-        .parameter("v__verbose", moreNote),
+        .parameter("v__verbose", verboseNote),
         .parameter("d__directory", directoryNote, .path),
         .parameter("t__template", "The template to use", .list(Template.cases)),
         .parameter("p__productName", "The name of the product (default: the package name in kebab-case)"),
@@ -93,7 +93,7 @@ struct InitDef: CommandNodeDef {
         Does not apply to the "opaque" template
         """
 
-    private static let moreNote = """
+    private static let verboseNote = """
         Use a template variant with more example parameters. Applies only to
         "basic" and "testing"
         """
@@ -134,8 +134,8 @@ extension InitDef {
         .parameter("generateManpage", "Generate the mdoc source for this manual page and write it to standard output"),
         .parameter("h__help", "Show a help screen"),
         .parameter("m__useMacros", protocolNote),
-        .parameter("more", moreNote),
-        .parameter("productName", productNameNote),
+        .parameter("v__verbose", verboseNote),
+        .parameter("p__productName", productNameNote),
         .parameter("t__template", "The template to use"),
         .paragraph("", packageNameNote),
         .paragraph("TEMPLATES",templateNote),
@@ -158,7 +158,7 @@ extension InitDef {
         """
 
     private static let manpageDescriptionNote1 = """
-        The $F{-} utility initializes a package containing an executable product based on a given $E{template}.
+        The $F{-} utility initializes a package containing an executable product based on a given $E{t__template}.
         Some templates also have variants with fewer example parameters.
         """
 

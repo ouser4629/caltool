@@ -357,8 +357,23 @@ end
 Add the following to your .zshrc file:
 
 ```
-# Local executables
-export PATH="${PATH:+$PATH:}$HOME/.local/bin"
+# Ensure the path array only contains unique entries
+typeset -U path cdpath fpath manpath
+
+# Append .local/bin to PATH
+path+=('$HOME/.local/bin')
+
+# Append local shell completions directory
+fpath=($fpath "$HOME/.config/zsh/completions")
+
+# Append a custom local manpage directory to MANPATH without wiping out system manpages
+if [[ -z "$MANPATH" ]]; then
+    # If MANPATH is empty, initialize it with a leading colon plus your custom path
+    export MANPATH=":$HOME/.local/share/man"
+elif [[ :$MANPATH: != *:$HOME/.local/share/man:* ]]; then
+    # If MANPATH already exists and doesn't contain your path, append it safely
+    export MANPATH="$MANPATH:$HOME/.local/share/man"
+fi
 
 # Local shell completions
 fpath=($fpath "$HOME/.config/zsh/completions")
