@@ -28,8 +28,8 @@ struct InitDef: CommandNodeDef {
     var m__useMacros: Flag = false
     var c__withCompletion: Flag = false
     var v__verbose: Flag = false
-    var d__directory: Directory?? = Optional(nil)
-    var p__productName: Product?? = Optional(nil)
+    var d__directory: Directory?? = Optional(.none)
+    var p__productName: Product?? = Optional(.none)
     var t__template: Template? = nil
 
     var commandNodeAttributes: CommandNodeAttributes<GlobalOptions>? = CommandNodeAttributes(

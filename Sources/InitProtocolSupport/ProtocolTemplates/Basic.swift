@@ -27,15 +27,8 @@ struct TARGET_NAME: MainFunctionDef {
     var i__index: Flag = false
     var l: Flag = false
     var u: Flag = false
-    var count: Int?? = nil
+    var count: Int?? = Optional(.none)
     var _animals: Variadic<Animal>? = nil
-
-    var attributes: MainFunctionAttributes? = MainFunctionAttributes(
-        shadowGroups: ["l u"],
-        typeNames: [
-           "_animals":"Variadic<Animal>?", COMPLETION_TYPENAME_LINE
-        ],
-    )
 
     func run() throws
     {
@@ -54,11 +47,16 @@ struct TARGET_NAME: MainFunctionDef {
         throw Exception.stdout(line)
     } COMPLETION_GENERATOR_LINES
 
+    static let attributes = ArgumentAttributes(
+        shadowGroups: ["l u"],
+        showElements: helpElements
+    )
+
     static let helpElements: [ShowElement] = [
         .text("DESCRIPTION\\n", "Print out the names of specified animals."),
         .synopsis("\\nUSAGE\\n"),
         .text("\\nOPERANDS"),
-        .parameter("_animals", "The names of the animals to print", .list(Animal.cases)),
+        .parameter("_animals", "The names of the animals to print", .list(Animal.cases), typeName: "Variadic<Animal>?"),
         .text("\\nOPTIONS"),
         .parameter("h__help", "Show this help message"),
         .parameter("i__index", "Add line numbers to output"),
@@ -88,11 +86,12 @@ import CmdArgLibHelpScreen COMPLETION_IMPORT_LINE
 @main
 struct TARGET_NAME: MainFunctionDef {
 
-    var l: Flag = false
     var version: MetaFlag = MetaFlag(string: "version 0.1.0")
     var h__help: MetaFlag = MetaFlag(helpElements: helpElements) COMPLETION_PARAMETER_LINE
 
-    var attributes: MainFunctionAttributes? = nil
+    static let attributes = ArgumentAttributes(
+        showElements: helpElements
+    )
 
     func run() throws
     {
