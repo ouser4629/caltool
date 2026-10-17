@@ -16,8 +16,10 @@ import CmdArgLibCore
 
 struct UninstallDef: CommandNodeDef {
 
+    typealias Limit = Int
+
     var i__confirmEach: Flag = false
-    var I__confirmOnce: Int?? = Optional(nil)
+    var I__confirmOnce: Limit?? = Optional(nil)
     var generateManpage: MetaFlag = MetaFlag(manpageElements: manpageElements)
     var h__help: MetaFlag = MetaFlag(helpElements: helpElements)
     var productNames: Variadic<Product> = []
@@ -46,7 +48,9 @@ struct UninstallDef: CommandNodeDef {
         .synopsis("\nUSAGE\n", line: ["$*", "!generateManpage"],),
         .text("\nOPTIONS"),
         .parameter("i__confirmEach", "Request confirmation before attempting to remove each product"),
-        .parameter("I__confirmOnce", "Request confirmation just once if more than $E{I__confirmOnce} products are being removed"),
+        .parameter("I__confirmOnce",
+                   "Request confirmation just once if more than $E{I__confirmOnce} products are being removed",
+                   typeName: "Limit??"),
         .parameter("h__help", "Show this help message"),
         .parameter(
             "productNames",
@@ -65,7 +69,7 @@ struct UninstallDef: CommandNodeDef {
         """
 
     static let shadowNote = """
-        The $S{i__confirmEach} and $S{I__confirmOnce} options override each other; the last one specified
+        The $S{i__confirmEach} and $S{I__confirmOnce} options shadow each other; the last one specified
         determines how product removal is confirmed.
         """
 
@@ -78,10 +82,10 @@ struct UninstallDef: CommandNodeDef {
         .paragraph("DESCRIPTION", manpageOverview1),
         .paragraph("", manpageOverview2),
         .paragraph("", "The following options are available:"),
+        .parameter("generateManpage", "Generate the mdoc source for this manual page and write it to standard output"),
+        .parameter("h__help", "Show a help screen"),
         .parameter("i__confirmEach", "Request confirmation before attempting to remove each file"),
         .parameter("I__confirmOnce", "Request confirmation just once if more than $E{I__confirmOnce} products are being removed"),
-        .parameter("generateManpage", "Generate the mdoc source for this manual page and write it to standard output"),
-        .parameter("help", "Show a help screen"),
         .paragraph("\n", shadowNote),
         .mdoc(Caltool.exitStatus),
         .mdoc(seeAlso),
