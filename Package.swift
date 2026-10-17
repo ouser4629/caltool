@@ -27,13 +27,12 @@ let package = Package(
         .package(url: "https://github.com/ouser4629/CmdArgLibCore.git", branch: "main"),
         .package(url: "https://github.com/ouser4629/CmdArgLibHelpScreen.git", branch: "main"),
         .package(url: "https://github.com/ouser4629/CmdArgLibManpage.git", branch: "main"),
-        .package(url: "https://github.com/ouser4629/CmdArgLibProtocols.git", branch: "main"),
         .package(url: "https://github.com/ouser4629/CmdArgLibCompletions.git", branch: "main"),
     ],
     targets: [
         .executableTarget(
             name: "CALTool",
-            dependencies: ["CmdArgLibCore" , "CmdArgLibProtocols",
+            dependencies: ["CmdArgLibCore",
                            "CmdArgLibHelpScreen", "CmdArgLibManpage", "CmdArgLibCompletions",
                            "InitCommon", "InitMacroSupport", "InitProtocolSupport"],
             swiftSettings: [.defaultIsolation(MainActor.self)]

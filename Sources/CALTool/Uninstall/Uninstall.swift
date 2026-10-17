@@ -13,35 +13,32 @@
 // limitations under the License.
 
 import CmdArgLibCore
-import CmdArgLibProtocols
 
 struct UninstallDef: CommandNodeDef {
 
-    typealias Limit = Int
-
     var i__confirmEach: Flag = false
-    var I__confirmOnce: Limit?? = nil
+    var I__confirmOnce: Int?? = Optional(nil)
     var generateManpage: MetaFlag = MetaFlag(manpageElements: manpageElements)
-    var help: MetaFlag = MetaFlag(helpElements: helpElements)
+    var h__help: MetaFlag = MetaFlag(helpElements: helpElements)
     var productNames: Variadic<Product> = []
 
     @MainActor
     func run(state: [GlobalOptions]) async throws -> [GlobalOptions] {
         guard let globalOptions = state.first else { fatalError() }
         let uninstaller = Uninstaller(globalOptions: globalOptions)
-        let limit: Limit? = if let I__confirmOnce, let I__confirmOnce { I__confirmOnce } else { nil }
+        // FIXME
+        let limit: Int? = if let I__confirmOnce, let I__confirmOnce { I__confirmOnce } else { nil }
         try await uninstaller.uninstall(productNames, confirmEach: i__confirmEach, confirmEachLimit: limit)
         return []
     }
 
-    var attributes: CommandNodeAttributes<GlobalOptions>? = CommandNodeAttributes(
-        shadowGroups: ["i__confirmEach I__confirmOnce"],
-        typeNames: [
-            "I__confirmOnce":"Limit??",
-            "productNames":"Variadic<Product>",
-        ],
+    var commandNodeAttributes: CommandNodeAttributes<GlobalOptions>? = CommandNodeAttributes(
         commandName: "uninstall",
         commandSynopsis: "Uninstall executable products.",
+    )
+
+    static let argumentAttributes = ArgumentAttributes(
+        showElements: helpElements
     )
 
     static let helpElements: [ShowElement] = [
@@ -50,8 +47,11 @@ struct UninstallDef: CommandNodeDef {
         .text("\nOPTIONS"),
         .parameter("i__confirmEach", "Request confirmation before attempting to remove each product"),
         .parameter("I__confirmOnce", "Request confirmation just once if more than $E{I__confirmOnce} products are being removed"),
-        .parameter("help", "Show this help message"),
-        .parameter( "productNames", "Names of products to uninstall (default: the names of products in the release directory)"),
+        .parameter("h__help", "Show this help message"),
+        .parameter(
+            "productNames",
+            "Names of products to uninstall (default: the names of products in the release directory)",
+            typeName: "Variadic<Product>"),
         .text("\nNOTE\n", shadowNote),
     ]
 

@@ -28,14 +28,13 @@ let package = Package(
 
     dependencies: [
         .package(url: "https://github.com/ouser4629/CmdArgLibCore.git", branch: "main"),
-        .package(url: "https://github.com/ouser4629/CmdArgLibProtocols.git", branch: "main"), 
     ],
 
     targets: [
         .executableTarget(
             name: "TARGET_NAME",
             dependencies: [
-                "CmdArgLibCore", "CmdArgLibProtocols",
+                "CmdArgLibCore",
             ]
         ),
     ]

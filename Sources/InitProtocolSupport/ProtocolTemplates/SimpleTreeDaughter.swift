@@ -16,7 +16,6 @@ let simpleTreeDaughter = """
     // Copyright (c) <YEAR> <AUTHOR>
 
     import CmdArgLibCore
-    import CmdArgLibProtocols
     import CmdArgLibHelpScreen
 
     struct Daughter: CommandNodeDef {

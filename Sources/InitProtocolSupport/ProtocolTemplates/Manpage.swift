@@ -16,7 +16,6 @@ let manpageMain = """
 // Copyright (c) <YEAR> <AUTHOR>
 
 import CmdArgLibCore
-import CmdArgLibProtocols
 import CmdArgLibHelpScreen
 import CmdArgLibManpage COMPLETION_IMPORT_LINE
 import Foundation

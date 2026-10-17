@@ -15,7 +15,6 @@
 import CmdArgLibCore
 import CmdArgLibHelpScreen
 import CmdArgLibCompletions
-import CmdArgLibProtocols
 
 typealias ReleaseDirectory = String
 typealias ProductDirectory = String
@@ -49,14 +48,13 @@ struct InstallDef: CommandNodeDef {
         return []
     }
 
-    var attributes: CommandNodeAttributes<GlobalOptions>? = CommandNodeAttributes(
-        typeNames: [
-            "m__manpages":"Variadic<Manpage>",
-            "c__completionScripts":"Variadic<Shell>",
-            "_productNames":"Variadic<Product>",
-        ],
+    var commandNodeAttributes: CommandNodeAttributes<GlobalOptions>? = CommandNodeAttributes(
         commandName: "install",
         commandSynopsis: "Install executable products.",
+    )
+
+    static let argumentAttributes = ArgumentAttributes(
+        showElements: helpElements
     )
 
     static let helpElements: [ShowElement] = [
@@ -64,9 +62,13 @@ struct InstallDef: CommandNodeDef {
         .synopsis("\nUSAGE\n", line: ["!generateManpage"]),
         .text("\nOPTIONS"),
         .parameter("h__help", "Show this help screen"),
-        .parameter("m__manpages", manpageSynopsis),
-        .parameter("c__completionScripts", shellsSynopsis, .list(ShellType.cases)),
-        .parameter("_productNames", "The names of products to install (default: executable products in the release directory)"),
+        .parameter("m__manpages", manpageSynopsis, typeName: "Variadic<Manpage>"),
+        .parameter("c__completionScripts", shellsSynopsis, .list(ShellType.cases), typeName: "Variadic<Shell>"),
+        .parameter(
+            "_productNames",
+            "The names of products to install (default: executable products in the release directory)",
+            typeName: "Variadic<Product>"
+        )
     ]
 
     static let helpOverview = """

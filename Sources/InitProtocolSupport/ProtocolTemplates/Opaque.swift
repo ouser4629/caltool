@@ -16,7 +16,6 @@ let opaqueMain = """
 // Copyright (c) <YEAR> <AUTHOR>
 
 import CmdArgLibCore
-import CmdArgLibProtocols
 
 @main
 struct TARGET_NAME: MainFunctionDef {

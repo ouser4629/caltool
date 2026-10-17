@@ -16,7 +16,6 @@ let statefulTreeSon = """
     // Copyright (c) <YEAR> <AUTHOR>
 
     import CmdArgLibCore
-    import CmdArgLibProtocols
     import CmdArgLibHelpScreen
 
     struct Son: CommandNodeDef {

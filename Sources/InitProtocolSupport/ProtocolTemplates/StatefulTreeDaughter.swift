@@ -17,7 +17,6 @@ let statefulTreeDaughter = """
     // Copyright (c) <YEAR> <AUTHOR>
 
     import CmdArgLibCore
-    import CmdArgLibProtocols
     import CmdArgLibHelpScreen
 
     struct Daughter: CommandNodeDef {
@@ -46,38 +45,5 @@ let statefulTreeDaughter = """
         ]
     }
     """
-
-//
-//let oldSatefulTreeDaughter = """
-//// Copyright (c) <YEAR> <AUTHOR>
-//
-//import CmdArgLibCore
-//import CmdArgLibProtocols
-//import CmdArgLibHelpScreen COMPLETION_IMPORT_LINE
-//
-//struct Daughter {COMPLETION_GENERATOR_LINES
-//
-//    @CommandNodeMacro<Format>(synopsis: "Simulate daughter speaking.")
-//    static func daughter(
-//       h__help: MetaFlag = MetaFlag(helpElements: helpElements),
-//       state: [Format]) -> [Format]
-//    {
-//        var text = "I want to play chess with my brother."
-//        if let format = state.first {
-//            if format.lower { text = text.lowercased() }
-//            if format.upper { text = text.uppercased() }
-//        }
-//        print(text)
-//        return []
-//    }
-//
-//    private static let helpElements: [ShowElement] = [
-//        .text("DESCRIPTION\\n", "Simulate daughter speaking."),
-//        .synopsis("\\nUSAGE\\n"),
-//        .text("\\nOPTIONS"),
-//        .parameter("h__help", "Show help information"),
-//    ]
-//}
-//"""
 
 let minimalStatefulTreeDaughter = statefulTreeDaughter

@@ -13,7 +13,6 @@
 // limitations under the License.
 
 import CmdArgLibCore
-import CmdArgLibProtocols
 import CmdArgLibHelpScreen
 import CmdArgLibManpage
 import InitCommon
@@ -29,12 +28,11 @@ struct InitDef: CommandNodeDef {
     var m__useMacros: Flag = false
     var c__withCompletion: Flag = false
     var v__verbose: Flag = false
-    var d__directory: Directory?? = nil
-    var p__productName: Product?? = nil
+    var d__directory: Directory?? = Optional(nil)
+    var p__productName: Product?? = Optional(nil)
     var t__template: Template? = nil
 
-    var attributes: CommandNodeAttributes<GlobalOptions>? = CommandNodeAttributes(
-        typeNames: [ "d__directory": "Directory??", "p__productName": "Product??",],
+    var commandNodeAttributes: CommandNodeAttributes<GlobalOptions>? = CommandNodeAttributes(
         commandName: "init",
         commandSynopsis: "Initialize a new package.",
     )
@@ -67,6 +65,10 @@ struct InitDef: CommandNodeDef {
         return []
     }
 
+    static let argumentAttributes = ArgumentAttributes(
+        showElements: helpElements
+    )
+
     private static let helpElements: [ShowElement] = [
         .text("DESCRIPTION\n", "Initialize a Swift package containing an executable product."),
         .synopsis("\nUSAGE\n", line: ["$*", "!generateManpage"]),
@@ -75,9 +77,11 @@ struct InitDef: CommandNodeDef {
         .parameter("m__useMacros", protocolNote),
         .parameter("c__withCompletion", completionNote),
         .parameter("v__verbose", verboseNote),
-        .parameter("d__directory", directoryNote, .path),
+        .parameter("d__directory", directoryNote, .path, typeName: " Directory??"),
         .parameter("t__template", "The template to use", .list(Template.cases)),
-        .parameter("p__productName", "The name of the product (default: the package name in kebab-case)"),
+        .parameter("p__productName",
+                   "The name of the product (default: the package name in kebab-case)",
+                  typeName: "Product??"),
         .text("\nTEMPLATES"),
         .pseudoParameter("opaque", "A product without a help screen"),
         .pseudoParameter("basic", "A product with a help screen"),

@@ -28,7 +28,6 @@ let package = Package(
 
     dependencies: [
         .package(url: "https://github.com/ouser4629/CmdArgLibCore.git", branch: "main"),
-        .package(url: "https://github.com/ouser4629/CmdArgLibProtocols.git", branch: "main"), 
         .package(url: "https://github.com/ouser4629/CmdArgLibHelpScreen.git", branch: "main"), COMPLETION_PACKAGE_DEPENDENCY_LINE MANPAGE_PACKAGE_DEPENDENCY_LINE
     ],
 
@@ -36,7 +35,7 @@ let package = Package(
         .executableTarget(
             name: "TARGET_NAME",
             dependencies: [
-                "CmdArgLibCore", "CmdArgLibProtocols", "CmdArgLibHelpScreen", COMPLETION_TARGET_DEPENDENCY_WORD MANPAGE_TARGET_DEPENDENCY_WORD
+                "CmdArgLibCore", "CmdArgLibHelpScreen", COMPLETION_TARGET_DEPENDENCY_WORD MANPAGE_TARGET_DEPENDENCY_WORD
             ]
         ),
     ]

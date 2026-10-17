@@ -16,7 +16,6 @@ import CmdArgLibCore
 import CmdArgLibHelpScreen
 import CmdArgLibManpage
 import CmdArgLibCompletions
-import CmdArgLibProtocols
 
 @main
 struct Caltool: CommandNodeDef {
@@ -34,8 +33,7 @@ struct Caltool: CommandNodeDef {
     var v__version: MetaFlag = MetaFlag(string: "caltool beta version 0.2.0")
     var h__help: MetaFlag = MetaFlag(helpElements: helpElements)
 
-    var attributes: CommandNodeAttributes<GlobalOptions>? = CommandNodeAttributes(
-        typeNames: ["generateCompletionScript":"MetaOption<Shell>"],
+    var commandNodeAttributes: CommandNodeAttributes<GlobalOptions>? = CommandNodeAttributes(
         commandSynopsis: "Swift package development",
         children: subcommands
     )
@@ -53,6 +51,10 @@ struct Caltool: CommandNodeDef {
     }
 
     typealias Shell = CompletionGenerator
+
+    static let argumentAttributes = ArgumentAttributes(
+        showElements: manpageElements
+    )
 
     private static let initNode = InitDef().commandNode
     private static let installNode = InstallDef().commandNode
@@ -93,7 +95,9 @@ struct Caltool: CommandNodeDef {
         .parameter("t__tree", "Show the command hierarchy"),
         .parameter("v__version", "Show the version"),
         .paragraph("META-OPTIONS", "The following meta-options are used when configuring the $F{} installation."),
-        .parameter("generateCompletionScript","Print a completion script for $F{} for the indicated shell (\(ShellType.orCases()))"),
+        .parameter("generateCompletionScript",
+                   "Print a completion script for $F{} for the indicated shell (\(ShellType.orCases()))",
+                   typeName: "MetaOption<Shell>"),
         .parameter("generateManpage", "Generate the mdoc source for this manual page and write it to stadard output"),
         .paragraph("CONFIGURATION OPTIONS", globalOptionNote),
         .paragraph("", availableGlobalOptions),

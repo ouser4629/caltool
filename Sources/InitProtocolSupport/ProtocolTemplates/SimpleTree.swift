@@ -16,7 +16,6 @@ let simpleTreeMain = """
 // Copyright (c) <YEAR> <AUTHOR>
 
 import CmdArgLibCore
-import CmdArgLibProtocols
 import CmdArgLibHelpScreen COMPLETION_IMPORT_LINE
 
 @main

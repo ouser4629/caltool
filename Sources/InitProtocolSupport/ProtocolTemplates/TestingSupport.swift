@@ -17,7 +17,6 @@ let testingSupport = """
 // Copyright (c) <YEAR> <AUTHOR>
 
 import CmdArgLibCore
-import CmdArgLibProtocols
 import CmdArgLibHelpScreen COMPLETION_IMPORT_LINE
 
 public struct TARGET_NAME: MainFunctionDef {
@@ -86,7 +85,6 @@ let minimalTestingSupport = """
 // Copyright (c) <YEAR> <AUTHOR>
 
 import CmdArgLibCore
-import CmdArgLibProtocols
 import CmdArgLibHelpScreen COMPLETION_IMPORT_LINE
 
 public struct TARGET_NAME: MainFunctionDef {

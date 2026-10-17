@@ -16,7 +16,6 @@ let basicMain = """
 // Copyright (c) <YEAR> <AUTHOR>
 
 import CmdArgLibCore
-import CmdArgLibProtocols
 import CmdArgLibHelpScreen COMPLETION_IMPORT_LINE
 
 @main
@@ -84,7 +83,6 @@ let minimalBasicMain = """
 // Copyright (c) <YEAR> <AUTHOR>
 
 import CmdArgLibCore
-import CmdArgLibProtocols
 import CmdArgLibHelpScreen COMPLETION_IMPORT_LINE
 
 @main
